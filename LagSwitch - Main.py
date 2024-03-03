@@ -71,4 +71,3 @@ hotkey = hotkey_data()
 # Run main loop
 while True:
     main()
-    time.sleep(0.5)
