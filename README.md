@@ -4,7 +4,7 @@ A simple Lag Switch designed for windows, with a toast notification when enabled
 # Hotkey Creation + Downloading
 - - Download the exe, or the .py file if you want to make any changes to the original script
 - - On first run, it will ask you to create a keybind, it can be any single key
-- - It will then store this file under hotkey.com, delete this file to reset it
+- - It will then store this file under hotkey.cum, delete this file to reset it
 
 # Script Usage
 - - To enable, press your assigned hotkey
