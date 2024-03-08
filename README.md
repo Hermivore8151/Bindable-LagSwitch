@@ -21,3 +21,4 @@ It uses the os import to run a simple command:
 # Other
 - Credits to https://github.com/Alexplayrus1 and https://github.com/dannws for finding the method used
 - DM me on Discord (@hermivore) for support and any issues
+- NOTE THAT THE .PY FILE IS *NOT* UP TO DATE, IT IS THE OLD VERSION
