@@ -180,3 +180,8 @@ def main_main(): # the main main 🗣
 hotkey, mode = setup()
 
 main_main()
+
+
+edit = r"""
+editing this as of 02/12/24 @ 1:22am, and im laughing at how garbage this code is, but it works so im just going to leave it for anyone who wants to tinker with it
+"""
