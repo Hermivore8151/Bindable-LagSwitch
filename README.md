@@ -5,7 +5,7 @@ A simple Lag Switch designed for windows, with a toast notification when enabled
 - - Download the exe
 - - On first run, it will ask you to create a keybind, it can be any single key
 - - It will also ask for the mode to use
-- - It will then store this file under hotkey.cum and mode.cum respectivly, delete these file to reset them
+- - It will then store this file under hotkey.txt and mode.txt respectivly, delete these file to reset them
 
 # Script Usage
 - - To enable, press your assigned hotkey
