@@ -34,12 +34,32 @@ def notif(title, message, duration=2):
     
 # Internet subroutines
 def enable_internet_main():
-    os.system("ipconfig /renew"); os.system("cls")
-    print("Switch Disabled - Internet Enabled")
+    global network_action, mode, amount
+    while True:
+        if not network_action:
+            # amount += 1 # Dont ahve to worry about enable subroutines, as they not harmful
+            network_action = True
+            os.system("ipconfig /renew"); os.system("cls")
+            notif("LagSwitch", "Switch Disabled - Internet Enabled")
+            print(f"Switch Disabled - Internet Enabled \n{mode} in use")
+            network_action = False
+            # amount -= 1
+            break
 
 def disable_internet_main():
-    os.system("ipconfig /release"); os.system("cls")
-    print("Switch Enabled - Internet Disabled")
+    global network_action, mode, amount
+    while True:
+        if not network_action:
+            if amount > 1:
+                break # Exit active disable subroutines, otherwise we end up disabling the internet for good lol
+            amount += 1
+            network_action = True
+            os.system("ipconfig /release"); os.system("cls")
+            notif("LagSwitch", "Switch Enabled - Internet Disabled")
+            print(f"Switch Enabled - Internet Disabled \n{mode} in use")
+            network_action = False
+            amount -= 1
+            break
     
 
 # Subroutines to be called
@@ -56,12 +76,12 @@ def disable_internet():
 # Load hotkey data
 def hotkey_data():
     try: 
-        file = open("hotkey.cum", "r")
+        file = open("hotkey.txt", "r")
         hotkey = file.readline()
 
     except:
         print("We dont have a hotkey data file, creating one")
-        file = open("hotkey.cum", "w")
+        file = open("hotkey.txt", "w")
         print("Press the key you want to use as a bind...")
         event = keyboard.read_event()
         event = event.name
@@ -79,12 +99,12 @@ def hotkey_data():
 # Load mode data
 def mode_data():
     try: 
-        file = open("mode.cum", "r")
+        file = open("mode.txt", "r")
         mode = file.readline()
 
     except:
         print("We dont have a mode data file, creating one")
-        file = open("mode.cum", "w")
+        file = open("mode.txt", "w")
         mode = (input("What mode do you want to use (1 OR 2): \n1. Toggle \n2. Hold\n")).strip()
 
         if mode == "1" or mode == "2":
@@ -104,10 +124,12 @@ def mode_data():
 
 # Setup
 def setup():
-    global hotkey, mode
+    global hotkey, mode, network_action, amount
     # Load data
     hotkey = hotkey_data()
     mode = mode_data()
+    network_action = False # False = no actions are being performed, true means actions are being performed
+    amount = 0
     print("Started")
     os.system("cls")
     # Run main loop
@@ -124,7 +146,6 @@ def main_1():
     event = event.name
 
     if event == hotkey: # Key pressed, enable the lagswitch
-        notif("LagSwitch", "Switch Enabled - Internet Disabled")
         disable_internet()
 
         time.sleep(0.5)
@@ -134,7 +155,6 @@ def main_1():
             event = event.name
 
             if event == hotkey: # Key pressed again, disable the lagswitch
-                notif("LagSwitch", "Switch Disabled - Internet Enabled")
                 enable_internet()
                 break
             time.sleep(0.1)
@@ -144,7 +164,6 @@ def main_1():
 def main_2():
     global hotkey
     if keyboard.is_pressed(hotkey):
-        notif("LagSwitch", "Switch Enabled - Internet Disabled")
         disable_internet()
 
         # Hold the program while pressed
@@ -153,20 +172,22 @@ def main_2():
             pass
 
         # Notify
-        notif("LagSwitch", "Switch Disabled - Internet Enabled")
         enable_internet() # Key has been released, re-enable internet
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def main_main(): # the main main 🗣
+    global mode
     try:
         if mode == "1":
-            print("Toggle in use")
+            mode = "Toggle"
+            print(f"Switch Disabled - Internet Enabled \n{mode} in use")
             while True:
                 time.sleep(0.1) # Stop the script from lagging the keyboard with a small delay
                 main_1() # Toggle
         else:
-            print("Hold in use")
+            mode = "Hold"
+            print(f"Switch Disabled - Internet Enabled \n{mode} in use")
             while True:
                 time.sleep(0.1) # Stop the script from lagging the keyboard with a small delay (i restarted my pc 3 times before figuring out this was the problem)
                 main_2() # Hold
@@ -180,8 +201,3 @@ def main_main(): # the main main 🗣
 hotkey, mode = setup()
 
 main_main()
-
-
-edit = r"""
-editing this as of 02/12/24 @ 1:22am, and im laughing at how garbage this code is, but it works so im just going to leave it for anyone who wants to tinker with it
-"""
